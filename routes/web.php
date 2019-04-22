@@ -11,7 +11,6 @@
 |
 */
 
-Route::get('/', function () {
-    \Log::debug('Test debug message');
-    return 'Hello everybody!';
-});
+Auth::routes();
+
+Route::get('/', 'HomeController@index')->name('home');
