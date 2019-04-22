@@ -14,3 +14,10 @@
 Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('home');
+
+//Route::resource('users', 'UserController');
+
+Route::group(['prefix' => '/users'], function () {
+    Route::get('/', 'UserController@index')->name('users.index');
+    Route::get('/{user}/edit', 'UserController@edit')->name('users.edit');
+});
