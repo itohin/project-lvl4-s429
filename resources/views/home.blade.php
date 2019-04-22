@@ -21,10 +21,3 @@
     </div>
 </div>
 @endsection
-
-mysql://b7ccf6260da766:af398bc8@eu-cdbr-west-02.cleardb.net/heroku_503826743251117?reconnect=true
-
-eu-cdbr-west-02.cleardb.net
-b7ccf6260da766
-af398bc8
-heroku_503826743251117
