@@ -29,6 +29,29 @@ class UsersTest extends TestCase
     {
         $user = $this->signIn();
         $this->get(route('users.edit', $user))->assertSee($user->name);
+
+        $attributes = ['name' => 'New name', 'email' => 'new@gmail.com'];
+
+        $this->patch(route('users.update', $user), $attributes);
+        $this->assertDatabaseHas('users', $attributes);
+    }
+
+    /** @test */
+    public function user_can_delete_own_profile()
+    {
+        $user = $this->signIn();
+
+        $this->delete(route('users.delete', $user));
+        $this->assertDatabaseMissing('users', $user->toArray());
+    }
+
+    /** @test */
+    public function user_cannot_delete_another_profiles()
+    {
+        $this->signIn();
+        $user = factory('App\User')->create();
+
+        $this->delete(route('users.delete', $user))->assertStatus(403);
     }
 
     /** @test */
