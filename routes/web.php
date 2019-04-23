@@ -20,4 +20,6 @@ Route::get('/', 'HomeController@index')->name('home');
 Route::group(['prefix' => '/users'], function () {
     Route::get('/', 'UserController@index')->name('users.index');
     Route::get('/{user}/edit', 'UserController@edit')->name('users.edit');
+    Route::patch('/{user}', 'UserController@update')->name('users.update');
+    Route::delete('/{user}', 'UserController@destroy')->name('users.delete');
 });

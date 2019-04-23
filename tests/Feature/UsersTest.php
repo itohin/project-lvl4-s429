@@ -23,4 +23,20 @@ class UsersTest extends TestCase
         $this->signIn();
         $this->get(route('users.index'))->assertStatus(200);
     }
+
+    /** @test */
+    public function user_can_edit_own_profile()
+    {
+        $user = $this->signIn();
+        $this->get(route('users.edit', $user))->assertSee($user->name);
+    }
+
+    /** @test */
+    public function user_cannot_edit_another_profiles()
+    {
+        $this->signIn();
+        $anotherUser = factory('App\User')->create();
+
+        $this->get(route('users.edit', $anotherUser))->assertStatus(403);
+    }
 }

@@ -58,6 +58,7 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    <a href="{{ route('users.edit', auth()->user()) }}" class="dropdown-item">Edit Profile</a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -81,5 +82,6 @@
             </div>
         </main>
     </div>
+    @yield('scripts')
 </body>
 </html>
