@@ -6,13 +6,10 @@ use App\Task;
 use Faker\Generator as Faker;
 
 $factory->define(Task::class, function (Faker $faker) {
-    $creator = $faker->numberBetween(1, 50);
-    $assigned = $creator < 40 ? $creator + 10 : $creator - 10;
-
     return [
         'name' => $faker->sentence,
         'description' => $faker->paragraph,
-        'creator_id' => $creator,
-        'assigned_id' => $assigned
+        'creator_id' => factory(\App\User::class),
+        'assigned_id' => factory(\App\User::class)
     ];
 });

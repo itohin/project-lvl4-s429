@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\User;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -22,6 +23,22 @@ class TasksTest extends TestCase
         $this->get(route('tasks.index'))
             ->assertStatus(200)
             ->assertSee($task->name);
+    }
+
+    /** @test */
+    public function task_belongs_to_creator()
+    {
+        $task = factory('App\Task')->create();
+
+        $this->assertInstanceOf(User::class, $task->creator);
+    }
+
+    /** @test */
+    public function task_belongs_to_asigned_user()
+    {
+        $task = factory('App\Task')->create();
+
+        $this->assertInstanceOf(User::class, $task->assignedTo);
     }
 
     /** @test */

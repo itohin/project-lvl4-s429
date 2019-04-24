@@ -19,11 +19,11 @@
             </tr>
             <tr>
                 <td>Creator</td>
-                <td>X</td>
+                <td>{{ $task->creator->name }}</td>
             </tr>
             <tr>
                 <td>Assigned to</td>
-                <td>X</td>
+                <td>{{ $task->assignedTo->name }}</td>
             </tr>
             <tr>
                 <td>Updated at</td>
