@@ -23,4 +23,14 @@ class TasksTest extends TestCase
             ->assertStatus(200)
             ->assertSee($task->name);
     }
+
+    /** @test */
+    public function single_task_available_on_task_page()
+    {
+        $task = factory('App\Task')->create();
+
+        $this->get(route('tasks.show', $task))
+            ->assertStatus(200)
+            ->assertSee($task->name);
+    }
 }

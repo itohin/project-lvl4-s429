@@ -27,4 +27,8 @@ Route::group(['prefix' => '/users'], function () {
 
 Route::group(['prefix' => '/tasks'], function () {
     Route::get('/', 'TaskController@index')->name('tasks.index');
+
+    Route::group(['prefix' => '/{task}'], function () {
+        Route::get('/show', 'TaskController@show')->name('tasks.show');
+    });
 });
