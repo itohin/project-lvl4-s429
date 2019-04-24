@@ -24,3 +24,7 @@ Route::group(['prefix' => '/users'], function () {
         Route::delete('/', 'UserController@destroy')->name('users.delete');
     });
 });
+
+Route::group(['prefix' => '/tasks'], function () {
+    Route::get('/', 'TaskController@index')->name('tasks.index');
+});
