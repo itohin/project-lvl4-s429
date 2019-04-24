@@ -27,6 +27,8 @@ Route::group(['prefix' => '/users'], function () {
 
 Route::group(['prefix' => '/tasks'], function () {
     Route::get('/', 'TaskController@index')->name('tasks.index');
+    Route::get('/create', 'TaskController@create')->name('tasks.create');
+    Route::post('/store', 'TaskController@store')->name('tasks.store');
 
     Route::group(['prefix' => '/{task}'], function () {
         Route::get('/show', 'TaskController@show')->name('tasks.show');

@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\User;
+use Illuminate\Database\Eloquent\Collection;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -61,5 +62,12 @@ class UsersTest extends TestCase
         $anotherUser = factory('App\User')->create();
 
         $this->get(route('users.edit', $anotherUser))->assertStatus(403);
+    }
+
+    /** @test */
+    public function a_user_has_tasks()
+    {
+        $user = factory('App\User')->create();
+        $this->assertInstanceOf(Collection::class, $user->tasks);
     }
 }
