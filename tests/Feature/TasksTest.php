@@ -14,6 +14,9 @@ class TasksTest extends TestCase
     /** @test */
     public function guests_cannot_manage_tasks()
     {
+        $task = factory('App\Task')->create();
+
+        $this->get(route('tasks.show', $task))->assertRedirect('login');
         $this->get(route('tasks.create'))->assertRedirect('login');
     }
 
@@ -62,7 +65,6 @@ class TasksTest extends TestCase
     /** @test */
     public function auth_users_can_create_tasks()
     {
-        $this->withoutExceptionHandling();
         $this->signIn();
 
         $this->get(route('tasks.create'))->assertStatus(200);
@@ -72,5 +74,29 @@ class TasksTest extends TestCase
         $this->post(route('tasks.store'), $attributes = ['name' => 'Test task', 'assigned_id' => $assigned->id]);
 
         $this->assertDatabaseHas('tasks', $attributes);
+    }
+
+    /** @test */
+    public function auth_users_can_update_own_tasks()
+    {
+        $user = $this->signIn();
+
+        $task = factory('App\Task')->create(['creator_id' => auth()->id()]);
+
+        $this->get(route('tasks.edit', $task))->assertStatus(200);
+
+        $this->patch(route('tasks.update', $task), $attributes = ['name' => 'Updated task', 'description' => 'Changed', 'assigned_id' => $task->assigned_id]);
+
+        $this->assertDatabaseHas('tasks', $attributes);
+    }
+
+    /** @test */
+    public function auth_users_cannot_update_other_tasks()
+    {
+        $this->signIn();
+
+        $task = factory('App\Task')->create();
+
+        $this->get(route('tasks.edit', $task))->assertStatus(403);
     }
 }

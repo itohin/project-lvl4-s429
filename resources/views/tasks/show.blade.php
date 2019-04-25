@@ -31,4 +31,7 @@
             </tr>
         </tbody>
     </table>
+    @can('update', $task)
+        <a href="{{ route('tasks.edit', $task) }}" class="btn btn-primary">Edit</a>
+    @endcan
 @endsection

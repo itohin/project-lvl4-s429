@@ -15,7 +15,7 @@ class TaskController extends Controller
 
     public function index()
     {
-        $tasks = Task::paginate(15);
+        $tasks = Task::latest()->paginate(15);
 
         return view('tasks.index', compact('tasks'));
     }
@@ -32,6 +32,15 @@ class TaskController extends Controller
         return view('tasks.create', compact('users'));
     }
 
+    public function edit(Task $task)
+    {
+        $this->authorize('update', $task);
+
+        $users = User::all();
+
+        return view('tasks.edit', compact('task', 'users'));
+    }
+
     public function store()
     {
         $attributes = $this->validateRequest();
@@ -39,6 +48,15 @@ class TaskController extends Controller
         $task = auth()->user()->tasks()->create($attributes);
 
         return redirect()->route('tasks.show', $task)->withSuccess('Task was created.');
+    }
+
+    public function update(Task $task)
+    {
+        $attributes = $this->validateRequest();
+
+        $task->update($attributes);
+
+        return redirect()->route('tasks.show', $task)->withSuccess('Task was updated.');
     }
 
     /**

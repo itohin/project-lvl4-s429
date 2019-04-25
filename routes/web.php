@@ -32,5 +32,7 @@ Route::group(['prefix' => '/tasks'], function () {
 
     Route::group(['prefix' => '/{task}'], function () {
         Route::get('/show', 'TaskController@show')->name('tasks.show');
+        Route::get('/edit', 'TaskController@edit')->name('tasks.edit');
+        Route::patch('/update', 'TaskController@update')->name('tasks.update');
     });
 });
