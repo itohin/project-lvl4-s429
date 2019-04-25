@@ -36,3 +36,14 @@ Route::group(['prefix' => '/tasks'], function () {
         Route::patch('/update', 'TaskController@update')->name('tasks.update');
     });
 });
+
+Route::group(['prefix' => '/status'], function () {
+    Route::get('/', 'StatusController@index')->name('status.index');
+    Route::get('/create', 'StatusController@create')->name('status.create');
+    Route::post('/store', 'StatusController@store')->name('status.store');
+
+    Route::group(['prefix' => '/{status}'], function () {
+        Route::get('/edit', 'StatusController@edit')->name('status.edit');
+        Route::patch('/update', 'StatusController@update')->name('status.update');
+    });
+});
