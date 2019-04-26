@@ -59,6 +59,25 @@
                             </div>
                         </div>
 
+                        <div class="form-group row">
+                            <label for="status_id" class="col-md-4 col-form-label text-md-right">Status</label>
+                            <div class="col-md-6">
+                                <select name="status_id" id="status_id" class="form-control{{ $errors->has('status_id') ? ' is-invalid' : '' }}">
+                                    @foreach($statuses as $status)
+                                        <option value="{{ $status->id }}"{{ (old('status_id') == $status->id || $task->status_id == $status->id) ? ' selected="selected"' : '' }}>
+                                            {{ $status->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+
+                                @if ($errors->has('status_id'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('status_id') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Status;
 use App\Task;
 use App\User;
 use Illuminate\Http\Request;
@@ -37,8 +38,9 @@ class TaskController extends Controller
         $this->authorize('update', $task);
 
         $users = User::all();
+        $statuses = Status::all();
 
-        return view('tasks.edit', compact('task', 'users'));
+        return view('tasks.edit', compact('task', 'users', 'statuses'));
     }
 
     public function store()
@@ -68,6 +70,7 @@ class TaskController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'description' => ['sometimes', 'string'],
             'assigned_id' => ['required', 'numeric'],
+            'status_id' => ['sometimes', 'numeric'],
         ]);
     }
 }
