@@ -15,7 +15,7 @@
             </tr>
             <tr>
                 <td>Status</td>
-                <td>X</td>
+                <td>{{ $task->status->name }}</td>
             </tr>
             <tr>
                 <td>Creator</td>

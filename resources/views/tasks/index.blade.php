@@ -18,7 +18,7 @@
                 <td>
                     <a href="{{ route('tasks.show', $task) }}">{{ $task->name }}</a>
                 </td>
-                <td>X</td>
+                <td>{{ $task->status->name }}</td>
                 <td>{{ $task->updated_at }}</td>
             </tr>
         @empty

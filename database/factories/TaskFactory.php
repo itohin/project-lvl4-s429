@@ -10,6 +10,7 @@ $factory->define(Task::class, function (Faker $faker) {
         'name' => $faker->sentence,
         'description' => $faker->paragraph,
         'creator_id' => factory(\App\User::class),
+        'status_id' => 1,
         'assigned_id' => factory(\App\User::class)
     ];
 });

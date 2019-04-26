@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Task;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -38,5 +39,14 @@ class StatusTest extends TestCase
         $this->patch(route('status.update', $status), $attributes = ['name' => 'Changed']);
 
         $this->assertDatabaseHas('statuses', $attributes);
+    }
+
+    /** @test */
+    public function status_has_many_tasks()
+    {
+        $status = factory('App\Status')->create();
+        factory('App\Task')->create();
+
+        $this->assertInstanceOf(Task::class, $status->tasks->first());
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Status;
 use App\User;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -28,6 +29,7 @@ class TasksTest extends TestCase
             ->assertSee('No tasks yet.');
 
         $task = factory('App\Task')->create();
+        factory('App\Status')->create();
 
         $this->get(route('tasks.index'))
             ->assertStatus(200)
@@ -51,11 +53,21 @@ class TasksTest extends TestCase
     }
 
     /** @test */
+    public function task_belongs_to_status()
+    {
+        factory('App\Status')->create();
+        $task = factory('App\Task')->create();
+
+        $this->assertInstanceOf(Status::class, $task->status);
+    }
+
+    /** @test */
     public function single_task_available_on_task_page()
     {
         $this->signIn();
 
         $task = factory('App\Task')->create();
+        factory('App\Status')->create();
 
         $this->get(route('tasks.show', $task))
             ->assertStatus(200)
