@@ -19,6 +19,7 @@ class TasksTest extends TestCase
 
         $this->get(route('tasks.show', $task))->assertRedirect('login');
         $this->get(route('tasks.create'))->assertRedirect('login');
+        $this->delete(route('tasks.delete', $task))->assertRedirect('login');
     }
 
     /** @test */
@@ -100,6 +101,18 @@ class TasksTest extends TestCase
         $this->patch(route('tasks.update', $task), $attributes = ['name' => 'Updated task', 'description' => 'Changed', 'assigned_id' => $task->assigned_id]);
 
         $this->assertDatabaseHas('tasks', $attributes);
+    }
+
+    /** @test */
+    public function auth_users_can_delete_own_tasks()
+    {
+        $user = $this->signIn();
+
+        $task = factory('App\Task')->create(['creator_id' => auth()->id()]);
+
+        $this->delete(route('tasks.delete', $task));
+
+        $this->assertDatabaseMissing('tasks', $task->toArray());
     }
 
     /** @test */

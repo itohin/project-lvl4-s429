@@ -45,5 +45,22 @@
     </table>
     @can('update', $task)
         <a href="{{ route('tasks.edit', $task) }}" class="btn btn-primary">Edit</a>
+        <button class="btn float-right btn-link" onclick="deleteTask();">Delete Task</button>
+
+        <form id="deleteTask" action="{{ route('tasks.delete', $task) }}" method="POST">
+            {{ csrf_field() }}
+            {{ method_field('DELETE') }}
+        </form>
     @endcan
+@endsection
+
+@section('scripts')
+    <script>
+        const deleteTask = () => {
+            event.preventDefault();
+            if (confirm('Are you realy want delete it?')) {
+                document.getElementById('deleteTask').submit();
+            }
+        }
+    </script>
 @endsection

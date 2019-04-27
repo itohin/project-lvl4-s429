@@ -68,6 +68,15 @@ class TaskController extends Controller
         return redirect()->route('tasks.show', $task)->withSuccess('Task was updated.');
     }
 
+    public function delete(Task $task)
+    {
+        $this->authorize('update', $task);
+
+        $task->delete();
+
+        return redirect()->route('tasks.index', $task)->withSuccess('Task was deleted.');
+    }
+
     /**
      * @return mixed
      */
