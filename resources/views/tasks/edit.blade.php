@@ -78,6 +78,20 @@
                             </div>
                         </div>
 
+                        <div class="form-group row">
+                            <label for="tags" class="col-md-4 col-form-label text-md-right">Tags</label>
+                            <div class="col-md-6">
+                                <select name="tags[]" class="form-control" multiple>
+                                    @foreach($tags as $tag)
+                                        <option value="{{ $tag->id }}"
+                                                {{ in_array($tag->id, $task->tag_list) ? ' selected' : '' }}>
+                                            {{ $tag->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">

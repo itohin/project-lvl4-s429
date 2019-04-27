@@ -27,4 +27,9 @@ class Task extends Model
     {
         return $this->belongsToMany(Tag::class, 'task_tag');
     }
+
+    public function getTagListAttribute()
+    {
+        return $this->tags()->pluck('id')->toArray();
+    }
 }

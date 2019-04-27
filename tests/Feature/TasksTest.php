@@ -111,4 +111,16 @@ class TasksTest extends TestCase
 
         $this->get(route('tasks.edit', $task))->assertStatus(403);
     }
+
+    /** @test */
+    public function tasks_can_sync_with_tags()
+    {
+        $task = factory('App\Task')->create();
+
+        $tags = factory('App\Tag', 2)->create();
+
+        $task->tags()->sync($tags->pluck('id')->toArray());
+
+        $this->assertEquals(2, $task->tags->count());
+    }
 }

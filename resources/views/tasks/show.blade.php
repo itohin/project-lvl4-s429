@@ -25,6 +25,18 @@
                 <td>Assigned to</td>
                 <td>{{ $task->assignedTo->name }}</td>
             </tr>
+            @if (!$task->tags->isEmpty())
+                <tr>
+                    <td>Tags</td>
+                    <td>
+                        <ul>
+                            @foreach($task->tags as $tag)
+                                <li>{{ $tag->name }}</li>
+                            @endforeach
+                        </ul>
+                    </td>
+                </tr>
+            @endif
             <tr>
                 <td>Updated at</td>
                 <td>{{ $task->updated_at }}</td>

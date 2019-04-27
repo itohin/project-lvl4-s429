@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Status;
+use App\Tag;
 use App\Task;
 use App\User;
 use Illuminate\Http\Request;
@@ -29,8 +30,9 @@ class TaskController extends Controller
     public function create()
     {
         $users = User::all();
+        $tags = Tag::all();
 
-        return view('tasks.create', compact('users'));
+        return view('tasks.create', compact('users', 'tags'));
     }
 
     public function edit(Task $task)
@@ -39,8 +41,9 @@ class TaskController extends Controller
 
         $users = User::all();
         $statuses = Status::all();
+        $tags = Tag::all();
 
-        return view('tasks.edit', compact('task', 'users', 'statuses'));
+        return view('tasks.edit', compact('task', 'users', 'statuses', 'tags'));
     }
 
     public function store()
@@ -48,6 +51,8 @@ class TaskController extends Controller
         $attributes = $this->validateRequest();
 
         $task = auth()->user()->tasks()->create($attributes);
+
+        $task->tags()->sync(request('tags'));
 
         return redirect()->route('tasks.show', $task)->withSuccess('Task was created.');
     }
@@ -57,6 +62,8 @@ class TaskController extends Controller
         $attributes = $this->validateRequest();
 
         $task->update($attributes);
+
+        $task->tags()->sync(request('tags'));
 
         return redirect()->route('tasks.show', $task)->withSuccess('Task was updated.');
     }
