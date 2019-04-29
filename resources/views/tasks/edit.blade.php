@@ -81,7 +81,7 @@
                         <div class="form-group row">
                             <label for="tags" class="col-md-4 col-form-label text-md-right">Tags</label>
                             <div class="col-md-6">
-                                <select name="tags[]" class="form-control" multiple>
+                                <select id="tagList" name="tags[]" class="form-control" multiple>
                                     @foreach($tags as $tag)
                                         <option value="{{ $tag->id }}"
                                                 {{ in_array($tag->id, $task->tag_list) ? ' selected' : '' }}>
@@ -104,4 +104,12 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('scripts')
+    <script>
+        $('#tagList').select2({
+            placeholder: 'Choose a tag'
+        });
+    </script>
 @endsection
