@@ -60,7 +60,7 @@ class StatusController extends Controller
     public function validateRequest()
     {
         return request()->validate([
-            'name' => ['required', 'string', 'max:255']
+            'name' => ['required', 'string', 'max:255', 'unique:statuses,name']
         ]);
     }
 }

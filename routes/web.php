@@ -49,3 +49,15 @@ Route::group(['prefix' => '/status'], function () {
         Route::delete('/', 'StatusController@destroy')->name('status.delete');
     });
 });
+
+Route::group(['prefix' => '/tags'], function () {
+    Route::get('/', 'TagController@index')->name('tags.index');
+    Route::get('/create', 'TagController@create')->name('tags.create');
+    Route::post('/store', 'TagController@store')->name('tags.store');
+
+    Route::group(['prefix' => '/{tag}'], function () {
+        Route::get('/edit', 'TagController@edit')->name('tags.edit');
+        Route::patch('/update', 'TagController@update')->name('tags.update');
+        Route::delete('/', 'TagController@destroy')->name('tags.delete');
+    });
+});
