@@ -46,5 +46,6 @@ Route::group(['prefix' => '/status'], function () {
     Route::group(['prefix' => '/{status}'], function () {
         Route::get('/edit', 'StatusController@edit')->name('status.edit');
         Route::patch('/update', 'StatusController@update')->name('status.update');
+        Route::delete('/', 'StatusController@destroy')->name('status.delete');
     });
 });

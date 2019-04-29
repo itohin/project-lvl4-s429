@@ -42,6 +42,18 @@ class StatusTest extends TestCase
     }
 
     /** @test */
+    public function auth_user_can_delete_status()
+    {
+        $this->signIn();
+
+        $status = factory('App\Status')->create();
+
+        $this->delete(route('status.delete', $status));
+
+        $this->assertDatabaseMissing('statuses', $status->toArray());
+    }
+
+    /** @test */
     public function status_has_many_tasks()
     {
         $status = factory('App\Status')->create();

@@ -126,6 +126,16 @@ class TasksTest extends TestCase
     }
 
     /** @test */
+    public function auth_users_cannot_delete_other_tasks()
+    {
+        $this->signIn();
+
+        $task = factory('App\Task')->create();
+
+        $this->delete(route('tasks.delete', $task))->assertStatus(403);
+    }
+
+    /** @test */
     public function tasks_can_sync_with_tags()
     {
         $task = factory('App\Task')->create();

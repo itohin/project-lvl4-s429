@@ -47,6 +47,13 @@ class StatusController extends Controller
         return redirect()->route('status.index')->withSuccess('Status was updated.');
     }
 
+    public function destroy(Status $status)
+    {
+        $status->delete();
+
+        return redirect()->route('status.index')->withSuccess('Status was deleted.');
+    }
+
     /**
      * @return mixed
      */
