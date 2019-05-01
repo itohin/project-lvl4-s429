@@ -17,7 +17,15 @@ class TaskController extends Controller
 
     public function index()
     {
-        $tasks = Task::latest()->paginate(15);
+        if ($slug = request('assigned')) {
+            $user = User::where('slug', $slug)->firstOrFail();
+            $tasks = Task::where('assigned_id', $user->id)->paginate(15);
+        } elseif ($slug = request('by')) {
+            $user = User::where('slug', $slug)->firstOrFail();
+            $tasks = $user->tasks()->paginate(15);
+        } else {
+            $tasks = Task::latest()->paginate(15);
+        }
 
         return view('tasks.index', compact('tasks'));
     }
