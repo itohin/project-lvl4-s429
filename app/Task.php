@@ -32,4 +32,9 @@ class Task extends Model
     {
         return $this->tags()->pluck('id')->toArray();
     }
+
+    public function scopeFilter($query, $filters)
+    {
+        return $filters->apply($query);
+    }
 }

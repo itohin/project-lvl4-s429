@@ -18,7 +18,6 @@
 
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                             <a href="{{ route('tasks.index') }}" class="dropdown-item">All Tasks</a>
-                            <a href="/tasks?by={{ auth()->user()->slug }}" class="dropdown-item">My Tasks</a>
                             <a href="{{ route('tasks.create') }}" class="dropdown-item">Create New</a>
                         </div>
                     </li>
@@ -44,18 +43,6 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('users.index') }}">Users</a>
-                    </li>
-
-                    <li class="nav-item dropdown">
-                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                            Assigned To <span class="caret"></span>
-                        </a>
-
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                            @foreach($assignedUsers as $user)
-                                <a href="/tasks?assigned={{ $user->slug }}" class="dropdown-item">{{ $user->name }}</a>
-                            @endforeach
-                        </div>
                     </li>
                 @endif
             </ul>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Filters\TaskFilters;
 use App\Status;
 use App\Tag;
 use App\Task;
@@ -15,17 +16,11 @@ class TaskController extends Controller
         $this->middleware('auth')->except(['index']);
     }
 
-    public function index()
+    public function index(TaskFilters $filters)
     {
-        if ($slug = request('assigned')) {
-            $user = User::where('slug', $slug)->firstOrFail();
-            $tasks = Task::where('assigned_id', $user->id)->paginate(15);
-        } elseif ($slug = request('by')) {
-            $user = User::where('slug', $slug)->firstOrFail();
-            $tasks = $user->tasks()->paginate(15);
-        } else {
-            $tasks = Task::latest()->paginate(15);
-        }
+        $tasks = Task::latest()->filter($filters)->paginate(15);
+
+        //$tasks = $this->getTasks();
 
         return view('tasks.index', compact('tasks'));
     }
@@ -96,5 +91,24 @@ class TaskController extends Controller
             'assigned_id' => ['required', 'numeric'],
             'status_id' => ['sometimes', 'numeric'],
         ]);
+    }
+
+    /**
+     * @return mixed
+     */
+    protected function getTasks()
+    {
+        if ($slug = request('assigned')) {
+            $user = User::where('slug', $slug)->firstOrFail();
+            $tasks = Task::where('assigned_id', $user->id);
+        } elseif ($slug = request('by')) {
+            $user = User::where('slug', $slug)->firstOrFail();
+            $tasks = $user->tasks();
+        } else {
+            $tasks = Task::latest();
+        }
+
+        $tasks = $tasks->paginate(15);
+        return $tasks;
     }
 }
