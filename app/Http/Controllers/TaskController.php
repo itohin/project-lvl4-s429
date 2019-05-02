@@ -20,8 +20,6 @@ class TaskController extends Controller
     {
         $tasks = Task::latest()->filter($filters)->paginate(15);
 
-        //$tasks = $this->getTasks();
-
         return view('tasks.index', compact('tasks'));
     }
 
@@ -91,24 +89,5 @@ class TaskController extends Controller
             'assigned_id' => ['required', 'numeric'],
             'status_id' => ['sometimes', 'numeric'],
         ]);
-    }
-
-    /**
-     * @return mixed
-     */
-    protected function getTasks()
-    {
-        if ($slug = request('assigned')) {
-            $user = User::where('slug', $slug)->firstOrFail();
-            $tasks = Task::where('assigned_id', $user->id);
-        } elseif ($slug = request('by')) {
-            $user = User::where('slug', $slug)->firstOrFail();
-            $tasks = $user->tasks();
-        } else {
-            $tasks = Task::latest();
-        }
-
-        $tasks = $tasks->paginate(15);
-        return $tasks;
     }
 }

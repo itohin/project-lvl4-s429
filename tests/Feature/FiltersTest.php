@@ -38,4 +38,36 @@ class FiltersTest extends TestCase
             ->assertDontSee($taskNotByJohn->name);
     }
 
+    /** @test */
+    public function filter_by_status()
+    {
+        $statusNew = factory('App\Status')->create(['name' => 'new']);
+        $statusTest = factory('App\Status')->create(['name' => 'test']);
+
+        $taskNew = factory('App\Task')->create(['status_id' => $statusNew->id]);
+        $taskTest = factory('App\Task')->create(['status_id' => $statusTest->id]);
+
+        $this->get('/tasks?status=' . $statusNew->id)
+            ->assertSee($taskNew->name)
+            ->assertDontSee($taskTest->name);
+    }
+
+    /** @test */
+    public function filter_by_tag()
+    {
+        $tagFirst = factory('App\Tag')->create(['name' => 'first']);
+        $tagSecond = factory('App\Tag')->create(['name' => 'second']);
+
+        factory('App\Status')->create();
+        $taskFirst = factory('App\Task')->create();
+        $taskSecond = factory('App\Task')->create();
+
+        $taskFirst->tags()->sync($tagFirst->id);
+        $taskSecond->tags()->sync($tagSecond->id);
+
+        $this->get('/tasks?tag=' . $tagFirst->id)
+            ->assertSee($taskFirst->name)
+            ->assertDontSee($taskSecond->name);
+    }
+
 }
