@@ -30,7 +30,7 @@ class StatusController extends Controller
 
         Status::create($attributes);
 
-        return redirect()->route('status.index')->withSuccess('Status was created.');
+        return redirect()->route('status.index')->withSuccess(__('Status was created.'));
     }
 
     public function edit(Status $status)
@@ -44,14 +44,14 @@ class StatusController extends Controller
 
         $status->update($attributes);
 
-        return redirect()->route('status.index')->withSuccess('Status was updated.');
+        return redirect()->route('status.index')->withSuccess(__('Status was updated.'));
     }
 
     public function destroy(Status $status)
     {
         $status->delete();
 
-        return redirect()->route('status.index')->withSuccess('Status was deleted.');
+        return redirect()->route('status.index')->withSuccess(__('Status was deleted.'));
     }
 
     /**

@@ -30,7 +30,7 @@ class TagController extends Controller
 
         Tag::create($attributes);
 
-        return redirect()->route('tags.index')->withSuccess('Tag was created.');
+        return redirect()->route('tags.index')->withSuccess(__('Tag was created.'));
     }
 
     public function edit(Tag $tag)
@@ -44,14 +44,14 @@ class TagController extends Controller
 
         $tag->update($attributes);
 
-        return redirect()->route('tags.index')->withSuccess('Tag was updated.');
+        return redirect()->route('tags.index')->withSuccess(__('Tag was updated.'));
     }
 
     public function destroy(Tag $tag)
     {
         $tag->delete();
 
-        return redirect()->route('tags.index')->withSuccess('Tag was deleted.');
+        return redirect()->route('tags.index')->withSuccess(__('Tag was deleted.'));
     }
 
     /**

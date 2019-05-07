@@ -11,7 +11,7 @@ class FiltersTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function filter_by_assigned_user()
+    public function filterByAssignedUser()
     {
         $assignedUser = factory('App\User')->create(['name' => 'John Doe']);
 
@@ -25,7 +25,7 @@ class FiltersTest extends TestCase
     }
 
     /** @test */
-    public function filter_by_auth_user()
+    public function filterByAuthUser()
     {
         $user = factory('App\User')->create(['name' => 'John Doe']);
 
@@ -39,7 +39,7 @@ class FiltersTest extends TestCase
     }
 
     /** @test */
-    public function filter_by_status()
+    public function filterByStatus()
     {
         $statusNew = factory('App\Status')->create(['name' => 'new']);
         $statusTest = factory('App\Status')->create(['name' => 'test']);
@@ -53,7 +53,7 @@ class FiltersTest extends TestCase
     }
 
     /** @test */
-    public function filter_by_tag()
+    public function filterByTag()
     {
         $tagFirst = factory('App\Tag')->create(['name' => 'first']);
         $tagSecond = factory('App\Tag')->create(['name' => 'second']);
@@ -69,5 +69,4 @@ class FiltersTest extends TestCase
             ->assertSee($taskFirst->name)
             ->assertDontSee($taskSecond->name);
     }
-
 }

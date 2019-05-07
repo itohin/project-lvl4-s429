@@ -13,32 +13,32 @@ class TasksTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function guests_cannot_manage_tasks()
+    public function guestsCannotManageTasks()
     {
         $task = factory('App\Task')->create();
 
         $this->get(route('tasks.show', $task))->assertRedirect('login');
         $this->get(route('tasks.create'))->assertRedirect('login');
-        $this->delete(route('tasks.delete', $task))->assertRedirect('login');
+        $this->delete(route('tasks.destroy', $task))->assertRedirect('login');
     }
 
     /** @test */
-    public function all_tasks_available_on_tasks_page()
+    public function allTasksAvailableOnTasksPage()
     {
         $this->get(route('tasks.index'))
             ->assertStatus(200)
             ->assertSee('No tasks yet.');
 
-//        $task = factory('App\Task')->create();
-//        factory('App\Status')->create();
-//
-//        $this->get(route('tasks.index'))
-//            ->assertStatus(200)
-//            ->assertSee($task->name);
+        $task = factory('App\Task')->create();
+        factory('App\Status')->create();
+
+        $this->get(route('tasks.index'))
+            ->assertStatus(200)
+            ->assertSee($task->name);
     }
 
     /** @test */
-    public function task_belongs_to_creator()
+    public function taskBelongsToCreator()
     {
         $task = factory('App\Task')->create();
 
@@ -46,7 +46,7 @@ class TasksTest extends TestCase
     }
 
     /** @test */
-    public function task_belongs_to_asigned_user()
+    public function taskBelongsToAsignedUser()
     {
         $task = factory('App\Task')->create();
 
@@ -54,7 +54,7 @@ class TasksTest extends TestCase
     }
 
     /** @test */
-    public function task_belongs_to_status()
+    public function taskBelongsToStatus()
     {
         factory('App\Status')->create();
         $task = factory('App\Task')->create();
@@ -63,7 +63,7 @@ class TasksTest extends TestCase
     }
 
     /** @test */
-    public function single_task_available_on_task_page()
+    public function singleTaskAvailableOnTaskPage()
     {
         $this->signIn();
 
@@ -76,7 +76,7 @@ class TasksTest extends TestCase
     }
 
     /** @test */
-    public function auth_users_can_create_tasks()
+    public function authUsersCanCreateTasks()
     {
         $this->signIn();
 
@@ -90,7 +90,7 @@ class TasksTest extends TestCase
     }
 
     /** @test */
-    public function auth_users_can_update_own_tasks()
+    public function authUsersCanUpdateOwnTasks()
     {
         $user = $this->signIn();
 
@@ -98,25 +98,27 @@ class TasksTest extends TestCase
 
         $this->get(route('tasks.edit', $task))->assertStatus(200);
 
-        $this->patch(route('tasks.update', $task), $attributes = ['name' => 'Updated task', 'description' => 'Changed', 'assigned_id' => $task->assigned_id]);
+        $attributes = ['name' => 'Updated task', 'description' => 'Changed', 'assigned_id' => $task->assigned_id];
+
+        $this->patch(route('tasks.update', $task), $attributes);
 
         $this->assertDatabaseHas('tasks', $attributes);
     }
 
     /** @test */
-    public function auth_users_can_delete_own_tasks()
+    public function authUsersCanDeleteOwnTasks()
     {
         $user = $this->signIn();
 
         $task = factory('App\Task')->create(['creator_id' => auth()->id()]);
 
-        $this->delete(route('tasks.delete', $task));
+        $this->delete(route('tasks.destroy', $task));
 
         $this->assertDatabaseMissing('tasks', $task->toArray());
     }
 
     /** @test */
-    public function auth_users_cannot_update_other_tasks()
+    public function authUsersCannotUpdateOtherTasks()
     {
         $this->signIn();
 
@@ -126,17 +128,17 @@ class TasksTest extends TestCase
     }
 
     /** @test */
-    public function auth_users_cannot_delete_other_tasks()
+    public function authUsersCannotDeleteOtherTasks()
     {
         $this->signIn();
 
         $task = factory('App\Task')->create();
 
-        $this->delete(route('tasks.delete', $task))->assertStatus(403);
+        $this->delete(route('tasks.destroy', $task))->assertStatus(403);
     }
 
     /** @test */
-    public function tasks_can_sync_with_tags()
+    public function tasksCanSyncWithTags()
     {
         $task = factory('App\Task')->create();
 

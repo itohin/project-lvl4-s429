@@ -11,7 +11,7 @@ class TagsTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function auth_user_can_create_tag()
+    public function authUserCanCreateTag()
     {
         $this->signIn();
 
@@ -23,7 +23,7 @@ class TagsTest extends TestCase
     }
 
     /** @test */
-    public function auth_user_can_update_tag()
+    public function authUserCanUpdateTag()
     {
         $this->signIn();
 
@@ -37,13 +37,13 @@ class TagsTest extends TestCase
     }
 
     /** @test */
-    public function auth_user_can_delete_tag()
+    public function authUserCanDeleteTag()
     {
         $this->signIn();
 
         $tag = factory('App\Tag')->create();
 
-        $this->delete(route('tags.delete', $tag));
+        $this->delete(route('tags.destroy', $tag));
 
         $this->assertDatabaseMissing('tags', $tag->toArray());
     }

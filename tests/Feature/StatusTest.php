@@ -12,7 +12,7 @@ class StatusTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function auth_user_can_create_status()
+    public function authUserCanCreateStatus()
     {
         $this->withoutExceptionHandling();
 
@@ -26,7 +26,7 @@ class StatusTest extends TestCase
     }
 
     /** @test */
-    public function auth_user_can_update_status()
+    public function authUserCanUpdateStatus()
     {
         $this->withoutExceptionHandling();
 
@@ -42,19 +42,19 @@ class StatusTest extends TestCase
     }
 
     /** @test */
-    public function auth_user_can_delete_status()
+    public function authUserCanDeleteStatus()
     {
         $this->signIn();
 
         $status = factory('App\Status')->create();
 
-        $this->delete(route('status.delete', $status));
+        $this->delete(route('status.destroy', $status));
 
         $this->assertDatabaseMissing('statuses', $status->toArray());
     }
 
     /** @test */
-    public function status_has_many_tasks()
+    public function statusHasManyTasks()
     {
         $status = factory('App\Status')->create();
         factory('App\Task')->create();

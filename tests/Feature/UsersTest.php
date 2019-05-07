@@ -13,20 +13,20 @@ class UsersTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function guests_cannot_see_users_page()
+    public function guestsCannotSeeUsersPage()
     {
         $this->get(route('users.index'))->assertRedirect('login');
     }
 
     /** @test */
-    public function user_can_see_all_users_page()
+    public function userCanSeeAllUsersPage()
     {
         $this->signIn();
         $this->get(route('users.index'))->assertStatus(200);
     }
 
     /** @test */
-    public function user_can_edit_own_profile()
+    public function userCanEditOwnProfile()
     {
         $user = $this->signIn();
         $this->get(route('users.edit', $user))->assertSee($user->name);
@@ -38,25 +38,25 @@ class UsersTest extends TestCase
     }
 
     /** @test */
-    public function user_can_delete_own_profile()
+    public function userCanDeleteOwnProfile()
     {
         $user = $this->signIn();
 
-        $this->delete(route('users.delete', $user));
+        $this->delete(route('users.destroy', $user));
         $this->assertDatabaseMissing('users', $user->toArray());
     }
 
     /** @test */
-    public function user_cannot_delete_another_profiles()
+    public function userCannotDeleteAnotherProfiles()
     {
         $this->signIn();
         $user = factory('App\User')->create();
 
-        $this->delete(route('users.delete', $user))->assertStatus(403);
+        $this->delete(route('users.destroy', $user))->assertStatus(403);
     }
 
     /** @test */
-    public function user_cannot_edit_another_profiles()
+    public function userCannotEditAnotherProfiles()
     {
         $this->signIn();
         $anotherUser = factory('App\User')->create();
@@ -65,7 +65,7 @@ class UsersTest extends TestCase
     }
 
     /** @test */
-    public function a_user_has_tasks()
+    public function userHasTasks()
     {
         $user = factory('App\User')->create();
         $this->assertInstanceOf(Collection::class, $user->tasks);

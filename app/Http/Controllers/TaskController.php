@@ -7,7 +7,6 @@ use App\Status;
 use App\Tag;
 use App\Task;
 use App\User;
-use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
@@ -55,7 +54,7 @@ class TaskController extends Controller
 
         $task->tags()->sync(request('tags'));
 
-        return redirect()->route('tasks.show', $task)->withSuccess('Task was created.');
+        return redirect()->route('tasks.show', $task)->withSuccess(__('Task was created.'));
     }
 
     public function update(Task $task)
@@ -66,16 +65,16 @@ class TaskController extends Controller
 
         $task->tags()->sync(request('tags'));
 
-        return redirect()->route('tasks.show', $task)->withSuccess('Task was updated.');
+        return redirect()->route('tasks.show', $task)->withSuccess(__('Task was updated.'));
     }
 
-    public function delete(Task $task)
+    public function destroy(Task $task)
     {
         $this->authorize('update', $task);
 
         $task->delete();
 
-        return redirect()->route('tasks.index', $task)->withSuccess('Task was deleted.');
+        return redirect()->route('tasks.index', $task)->withSuccess(__('Task was deleted.'));
     }
 
     /**

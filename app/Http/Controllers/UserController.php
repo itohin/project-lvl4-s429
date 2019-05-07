@@ -58,7 +58,7 @@ class UserController extends Controller
 
         $user->update($attributes);
 
-        return back()->withSuccess('Profile update successfully.');
+        return back()->withSuccess(__('Profile update successfully.'));
     }
 
     /**
@@ -89,6 +89,6 @@ class UserController extends Controller
 
         $user->delete();
 
-        return redirect()->route('login')->withSuccess('Your profile was successfully deleted.');
+        return redirect()->route('login')->withSuccess(__('Your profile was successfully deleted.'));
     }
 }

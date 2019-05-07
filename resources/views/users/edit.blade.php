@@ -66,27 +66,15 @@
                                 <button type="submit" class="btn btn-primary">
                                     Update
                                 </button>
-                                <button class="btn float-right btn-link" onclick="deleteUser();">Delete Profile</button>
+                                <a href="{{ route('users.destroy', $user) }}" class="btn float-right btn-link"
+                                   data-method="delete" data-confirm="Are you sure you want to delete?">
+                                    Delete
+                                </a>
                             </div>
                         </div>
-                    </form>
-                    <form id="delete-form" action="{{ route('users.delete', $user) }}" method="POST">
-                        {{ csrf_field() }}
-                        {{ method_field('DELETE') }}
                     </form>
                 </div>
             </div>
         </div>
     </div>
-@endsection
-
-@section('scripts')
-    <script>
-        const deleteUser = () => {
-            event.preventDefault();
-            if (confirm('Are you realy want delete it?')) {
-                document.getElementById('delete-form').submit();
-            }
-        }
-    </script>
 @endsection
